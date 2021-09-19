@@ -1,0 +1,25 @@
+.center {
+  text-align:center;
+  background: #eeeeee;
+  font-size: 50px; 
+  width: 100%;
+  margin: 10px 20px 30px 10px;
+}
+
+.center1 {
+  text-align:center;
+  color:orange;
+      font-size: 50px; 
+  background: #dddddd;
+  width: 100%;
+  margin: 10px 20px 30px 10px;
+}
+
+.center2 {
+  text-align:center;
+  color:red;
+font-size: 50px; 
+  background: #cccccc;
+  width: 100%;
+  margin: 10px 20px 30px 10px;
+}
