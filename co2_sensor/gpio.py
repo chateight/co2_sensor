@@ -33,11 +33,11 @@ def read_store():
     density = val['co2']
     # comment out when run as a background task
     #print(val['co2'])
-    if density < 1000:
+    if density <= 1000:
         GPIO.output(BLUE, False)
         GPIO.output(YELLOW, True)
         GPIO.output(RED, True)
-    elif density < 2000:
+    elif density <= 2000:
         GPIO.output(BLUE, True)
         GPIO.output(YELLOW, False)
         GPIO.output(RED, True)
