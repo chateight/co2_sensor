@@ -43,7 +43,7 @@ $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 echo $e->getMessage();
 exit;
 }
-// DBからメールアドレス読み出して返却
+// DBから値を読み出して返却
 $stmt = $dbh->prepare("SELECT * FROM `pythonco2` order by t desc limit 1");
 $stmt->execute();
 $results = $stmt->fetchAll();
