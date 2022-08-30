@@ -3,7 +3,7 @@ $ret = db_read();
 foreach ($ret as $cnt => $value) {
  echo $value[2];
 }
-if($value[2] < 1000){
+if($value[2] < 1000){    // line 6 to 11 are redundant, never used
     }
     elseif($value[2] < 2000){
     }
