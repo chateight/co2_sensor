@@ -6,51 +6,116 @@
 </head>
 <body>
 <div class="center"><h1>『密』センサー</h1></div>
-<div class="center"><h2> 現在のco2濃度は、</h2></div>
-
+<div class="center"><h2> 現在のCO2濃度は、</h2></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="center"><h2><div class="data">
 <?php
-$ret = db_read();
-foreach ($ret as $cnt => $value) {
- echo "<div class=\"center\"><h2>$value[2]"." ppmです</h2></div>";
-}
+require_once './data_read.php';
+echo "ppmです</div></h2></div>";
+//
 if($value[2] < 1000){
-    echo "<div class=\"center\"><h3>換気状態は良好です</h3></div>";
+    echo "<h3><div class=\"style1\"><div class=\"mes\">換気状態は良好です</div></div></h3>";
     }
     elseif($value[2] < 2000){
-        echo "<div class=\"center1\"><h3>換気が必要かもしれません</h3></div>";
+        echo "<h3><div class=\"style2\"><div class=\"mes\">換気が必要かもしれません</div></div></h3>";
     }
     elseif($value[2] > 2000){
-        echo "<div class=\"center2\"><h3>すぐに換気してください</h3></div>";
+        echo "<h3><div class=\"style3\"><div class=\"mes\">すぐに換気してください</div></div></h3>";
     }
-
 //
-function db_read()
-{
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'co2');
-define('DB_USER', 'root');
-define('DB_PASSWORD', 'root');
-
-// 文字化け対策
-$options = array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET CHARACTER SET 'utf8'");
-
-// データベースの接続
-try {
-$dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME,DB_USER, DB_PASSWORD, $options);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//    echo 'success';
-} catch (PDOException $e) {
-echo $e->getMessage();
-exit;
-}
-// DBから値を読み出して返却
-$stmt = $dbh->prepare("SELECT * FROM `pythonco2` order by t desc limit 1");
-$stmt->execute();
-$results = $stmt->fetchAll();
-// connection close
-$dbh = null;
-return $results;
-}
 ?>
+<script>
+const warn_level = 1000;
+const alarm_level = 2000;
+// read and set the value
+update();
+// repeat ajax [rocess
+function update(){
+      setInterval( repeat, 1000*10 );
+    }
+// using jQuery
+function repeat(){
+      $.ajax({
+        type: "GET",
+        url: "data_read.php",
+        dataType : "text"
+      })
+      // Ajax request success
+      .done(function(data){
+        let val_int = Number(data)
+        console.log(val_int);
+        $(".data").text(data + 'ppmです');
+        if (val_int < warn_level){
+            set_style(val_int);
+            $(".mes").text('換気状態は良好です');
+        }
+        if(val_int >= warn_level && val_int < alarm_level){
+            set_style(val_int);
+            $(".mes").text('換気が必要かもしれません');
+        }
+        if(val_int >= alarm_level){
+            set_style(val_int);
+            $(".mes").text('すぐに換気してください');
+        }
+      })
+      // Ajax request failed
+      //.fail(function(XMLHttpRequest, textStatus, errorThrown){
+      //  alert(errorThrown);
+      //});
+      }
+// set style the style
+function set_style(val){
+    if (val < warn_level){ 
+            let color = document.querySelector(".style1");
+            if (color == null){                     // not style1
+                color = document.querySelector(".style2");
+                if (color !== null){                 // style2
+                    color.classList.remove("style2");
+                    color.classList.add("style1");
+                } else{
+                    color = document.querySelector(".style3");
+                    if (color !== null){            // style3
+                        color.classList.remove("style3");
+                        color.classList.add("style1");
+                    }
+                }
+            }
+    }
+    if (val >= warn_level && val < alarm_level){ 
+            let color = document.querySelector(".style2");
+            if (color == null){                     // not style2
+                color = document.querySelector(".style1");
+                if (color !== null){                 // style1
+                    color.classList.remove("style1");
+                    color.classList.add("style2");
+                } else{
+                    color = document.querySelector(".style3");
+                    if (color !== null){            // style3
+                        color.classList.remove("style3");
+                        color.classList.add("style2");
+                    }
+                }
+            }
+    }
+                      
+    if (val > alarm_level){ 
+            let color = document.querySelector(".style3");
+            if (color == null){                     // not style3
+                color = document.querySelector(".style1");
+                if (color !== null){                 // style1
+                    color.classList.remove("style1");
+                    color.classList.add("style3");
+                } else{
+                    color = document.querySelector(".style2");
+                    if (color !== null){            // style2
+                        color.classList.remove("style2");
+                        color.classList.add("style3");
+                    }
+                }
+            }
+    }
+}
+</script>
+<!-- <button id="button">送信</button>-->
 </body>
 </html>
