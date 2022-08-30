@@ -63,7 +63,7 @@ function repeat(){
       //  alert(errorThrown);
       //});
       }
-// set style the style
+// set style to the "style"
 function set_style(val){
     if (val < warn_level){ 
             let color = document.querySelector(".style1");
