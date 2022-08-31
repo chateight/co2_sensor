@@ -101,6 +101,5 @@ function set_style(val){
     }
 }
 </script>
-<!-- <button id="button">送信</button>-->
 </body>
 </html>
