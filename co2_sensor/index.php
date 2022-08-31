@@ -31,7 +31,7 @@ const alarm_level = 2000;
 update();
 // repeat ajax [rocess
 function update(){
-      setInterval( repeat, 1000*10 );
+      setInterval( repeat, 1000*30 );
     }
 // using jQuery
 function repeat(){
@@ -63,56 +63,41 @@ function repeat(){
       //  alert(errorThrown);
       //});
       }
-// set style to the "style"
+// set style the style
+// set style to the class "style"
+function class_set(key, style_ary){
+    let color = document.querySelector("." + style_ary[key]);
+    if (color === null){                    // need to change the style?
+        //let color_t;
+        for(let item in style_ary ){        // yes
+            color = document.querySelector("." + style_ary[item]);
+            if (color !== null){
+                color.classList.remove(style_ary[item]);
+                color.classList.add(style_ary[key]);
+            }
+        } 
+    }
+    else{
+        return;
+    }
+}
+
+// select the syle up to the value
 function set_style(val){
-    if (val < warn_level){ 
-            let color = document.querySelector(".style1");
-            if (color == null){                     // not style1
-                color = document.querySelector(".style2");
-                if (color !== null){                 // style2
-                    color.classList.remove("style2");
-                    color.classList.add("style1");
-                } else{
-                    color = document.querySelector(".style3");
-                    if (color !== null){            // style3
-                        color.classList.remove("style3");
-                        color.classList.add("style1");
-                    }
-                }
-            }
+    const style_ary = ["style1", "style2", "style3"];
+    if (val < warn_level){
+        let key = 0;
+        class_set(key, style_ary);
     }
-    if (val >= warn_level && val < alarm_level){ 
-            let color = document.querySelector(".style2");
-            if (color == null){                     // not style2
-                color = document.querySelector(".style1");
-                if (color !== null){                 // style1
-                    color.classList.remove("style1");
-                    color.classList.add("style2");
-                } else{
-                    color = document.querySelector(".style3");
-                    if (color !== null){            // style3
-                        color.classList.remove("style3");
-                        color.classList.add("style2");
-                    }
-                }
-            }
+
+    if (val >= warn_level && val < alarm_level){
+        let key = 1;
+        class_set(key, style_ary);
     }
-                      
-    if (val > alarm_level){ 
-            let color = document.querySelector(".style3");
-            if (color == null){                     // not style3
-                color = document.querySelector(".style1");
-                if (color !== null){                 // style1
-                    color.classList.remove("style1");
-                    color.classList.add("style3");
-                } else{
-                    color = document.querySelector(".style2");
-                    if (color !== null){            // style2
-                        color.classList.remove("style2");
-                        color.classList.add("style3");
-                    }
-                }
-            }
+
+    if (val > alarm_level){
+        let key = 2;
+        class_set(key, style_ary);
     }
 }
 </script>
