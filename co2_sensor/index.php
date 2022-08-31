@@ -16,7 +16,7 @@ echo "ppmです</div></h2></div>";
 if($value[2] < 1000){
     echo "<h3><div class=\"style1\"><div class=\"mes\">換気状態は良好です</div></div></h3>";
     }
-    elseif($value[2] < 2000){
+    elseif($value[2] <= 2000){
         echo "<h3><div class=\"style2\"><div class=\"mes\">換気が必要かもしれません</div></div></h3>";
     }
     elseif($value[2] > 2000){
@@ -63,7 +63,6 @@ function repeat(){
       //  alert(errorThrown);
       //});
       }
-// set style the style
 // set style to the class "style"
 function class_set(key, style_ary){
     let color = document.querySelector("." + style_ary[key]);
@@ -74,6 +73,7 @@ function class_set(key, style_ary){
             if (color !== null){
                 color.classList.remove(style_ary[item]);
                 color.classList.add(style_ary[key]);
+                break;
             }
         } 
     }
@@ -82,7 +82,7 @@ function class_set(key, style_ary){
     }
 }
 
-// select the syle up to the value
+// select the syle from the value
 function set_style(val){
     const style_ary = ["style1", "style2", "style3"];
     if (val < warn_level){
