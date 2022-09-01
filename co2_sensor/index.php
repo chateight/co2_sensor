@@ -16,7 +16,7 @@ echo "ppmです</div></h2></div>";
 if($value[2] < 1000){
     echo "<h3><div class=\"style1\"><div class=\"mes\">換気状態は良好です</div></div></h3>";
     }
-    elseif($value[2] <= 2000){
+    elseif($value[2] < 2000){
         echo "<h3><div class=\"style2\"><div class=\"mes\">換気が必要かもしれません</div></div></h3>";
     }
     elseif($value[2] >= 2000){
@@ -35,6 +35,7 @@ function update(){
     }
 // using jQuery
 function repeat(){
+      const message = ["換気状態は良好です", "換気が必要かもしれません", "すぐに換気してください"];
       $.ajax({
         type: "GET",
         url: "data_read.php",
@@ -46,17 +47,15 @@ function repeat(){
         console.log(val_int);
         $(".data").text(data + 'ppmです');
         if (val_int < warn_level){
-            set_style(val_int);
-            $(".mes").text('換気状態は良好です');
+            $(".mes").text(message[0]);
         }
         if(val_int >= warn_level && val_int < alarm_level){
-            set_style(val_int);
-            $(".mes").text('換気が必要かもしれません');
+            $(".mes").text(message[1]);
         }
         if(val_int >= alarm_level){
-            set_style(val_int);
-            $(".mes").text('すぐに換気してください');
+            $(".mes").text(message[2]);
         }
+        set_style(val_int);
       })
       // Ajax request failed
       //.fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -67,7 +66,6 @@ function repeat(){
 function class_set(key, style_ary){
     let color = document.querySelector("." + style_ary[key]);
     if (color === null){                    // need to change the style?
-        //let color_t;
         for(let item in style_ary ){        // yes
             color = document.querySelector("." + style_ary[item]);
             if (color !== null){
