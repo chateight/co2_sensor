@@ -19,7 +19,7 @@ if($value[2] < 1000){
     elseif($value[2] <= 2000){
         echo "<h3><div class=\"style2\"><div class=\"mes\">換気が必要かもしれません</div></div></h3>";
     }
-    elseif($value[2] > 2000){
+    elseif($value[2] >= 2000){
         echo "<h3><div class=\"style3\"><div class=\"mes\">すぐに換気してください</div></div></h3>";
     }
 //
@@ -77,28 +77,15 @@ function class_set(key, style_ary){
             }
         } 
     }
-    else{
-        return;
-    }
 }
-
 // select the syle from the value
 function set_style(val){
     const style_ary = ["style1", "style2", "style3"];
-    if (val < warn_level){
-        let key = 0;
-        class_set(key, style_ary);
-    }
-
-    if (val >= warn_level && val < alarm_level){
-        let key = 1;
-        class_set(key, style_ary);
-    }
-
-    if (val > alarm_level){
-        let key = 2;
-        class_set(key, style_ary);
-    }
+    let key = (val < warn_level)? 0 
+    : (val >= warn_level && val < alarm_level)? 1 
+    : 2;
+    // call class property setting
+    class_set(key, style_ary);
 }
 </script>
 </body>
