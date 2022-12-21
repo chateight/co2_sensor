@@ -6,5 +6,6 @@ raspberry pi + co2 concentration sensor
 - storage detected vallue into maria db table
 - provide web server access
 
-
 current apache document root on the raspberrypi is "/var/www/html"
+
+graph.py is used to generate graphs from SQL database.
