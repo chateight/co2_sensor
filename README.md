@@ -8,4 +8,4 @@ raspberry pi + co2 concentration sensor
 
 current apache document root on the raspberrypi is "/var/www/html"
 
-graph.py is used to generate graphs from SQL database.
+graph.py is used to generate graphs from the SQL database.
